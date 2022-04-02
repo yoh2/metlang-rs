@@ -9,3 +9,4 @@ edition = "2021"
 anyhow = "1.0"
 structopt = "0.3"
 thiserror = "1.0"
+libbf = { version = "0.0", git = "https://github.com/yoh2/libbf-rs" }

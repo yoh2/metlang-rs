@@ -1,10 +1,8 @@
-use std::{
-    fs,
-    io::{self, Read},
-    path::PathBuf,
-};
+use std::{fs, io, path::PathBuf};
 
 use structopt::StructOpt;
+
+use libbf::prelude::*;
 
 pub mod metlang;
 
@@ -23,29 +21,24 @@ struct Opt {
     source_file: Option<PathBuf>,
 }
 
-fn read_from_stdin() -> io::Result<String> {
-    let mut buffer = String::new();
-    io::stdin().read_to_string(&mut buffer)?;
-    Ok(buffer)
-}
-
 fn main() -> Result<(), anyhow::Error> {
     let opt = Opt::from_args();
 
-    let source = if let Some(exp) = opt.expression {
-        exp
+    let tokenizer = metlang::tokenizer();
+
+    let program = if let Some(exp) = opt.expression {
+        parse_str(&tokenizer, &exp)?
     } else if let Some(file) = opt.source_file {
         if file.as_os_str() == "-" {
-            read_from_stdin()?
+            parse(&tokenizer, &mut io::stdin())?
         } else {
-            fs::read_to_string(file)?
+            parse(&tokenizer, &mut fs::File::open(file)?)?
         }
     } else {
-        read_from_stdin()?
+        parse(&tokenizer, &mut io::stdin())?
     };
 
-    let program = metlang::parse(&source)?;
-    metlang::run(&program)?;
+    run(&program, io::stdin(), io::stdout())?;
 
     if !opt.no_newline {
         println!();
