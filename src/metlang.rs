@@ -1,15 +1,6 @@
 use libbf::prelude::*;
 
-pub const TOKEN_SPEC: SimpleTokenSpec<
-    &'static str,
-    &'static str,
-    &'static str,
-    &'static str,
-    &'static str,
-    &'static str,
-    &'static str,
-    &'static str,
-> = SimpleTokenSpec {
+const TOKEN_SPEC: SimpleTokenSpec1<&str> = SimpleTokenSpec {
     ptr_inc: "にゃうね",
     ptr_dec: "にゃん",
     data_inc: "にゃう",
@@ -20,6 +11,6 @@ pub const TOKEN_SPEC: SimpleTokenSpec<
     loop_tail: "ねる",
 };
 
-pub fn tokenizer() -> SimpleTokenizer {
-    TOKEN_SPEC.to_tokenizer()
+pub fn parser() -> Parser<SimpleTokenizer> {
+    Parser::new(TOKEN_SPEC.to_tokenizer())
 }
