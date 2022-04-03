@@ -24,21 +24,27 @@ struct Opt {
 fn main() -> Result<(), anyhow::Error> {
     let opt = Opt::from_args();
 
-    let tokenizer = metlang::tokenizer();
+    let parser = metlang::parser();
 
     let program = if let Some(exp) = opt.expression {
-        parse_str(&tokenizer, &exp)?
+        parser.parse_str(&exp)?
     } else if let Some(file) = opt.source_file {
         if file.as_os_str() == "-" {
-            parse(&tokenizer, &mut io::stdin())?
+            parser.parse(&mut io::stdin())?
         } else {
-            parse(&tokenizer, &mut fs::File::open(file)?)?
+            parser.parse(&mut fs::File::open(file)?)?
         }
     } else {
-        parse(&tokenizer, &mut io::stdin())?
+        parser.parse(&mut io::stdin())?
     };
 
-    run(&program, io::stdin(), io::stdout())?;
+    if let Err(e) = run(&program, io::stdin(), io::stdout()) {
+        if let RuntimeError::Eof = e {
+            // EOF is a normal case.
+        } else {
+            return Err(e.into());
+        }
+    }
 
     if !opt.no_newline {
         println!();
