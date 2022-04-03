@@ -76,7 +76,7 @@ checksum = "e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646"
 [[package]]
 name = "libbf"
 version = "0.0.2"
-source = "git+https://github.com/yoh2/libbf-rs#c25c8e91c6d140baa402070d5c8238061e5725d0"
+source = "git+https://github.com/yoh2/libbf-rs?branch=refine#89d0fd8b2d09abddec9bb4782050b0da81cb9660"
 dependencies = [
  "thiserror",
 ]
