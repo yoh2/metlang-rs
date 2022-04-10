@@ -75,8 +75,9 @@ checksum = "e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646"
 
 [[package]]
 name = "libbf"
-version = "0.0.3"
-source = "git+https://github.com/yoh2/libbf-rs#e63dfd3fc413691e0992c0a90065d2101a7ddee3"
+version = "0.1.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7b42db6fd7f0e7a60aca71fc5e0eea0b0d19bb369eb17f09fd69215030e93246"
 dependencies = [
  "thiserror",
 ]

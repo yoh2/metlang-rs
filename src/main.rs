@@ -38,7 +38,7 @@ fn main() -> Result<(), anyhow::Error> {
         parser.parse(&mut io::stdin())?
     };
 
-    if let Err(e) = run(&program, io::stdin(), io::stdout()) {
+    if let Err(e) = runtime::run(&program, io::stdin(), io::stdout()) {
         if let RuntimeError::Eof = e {
             // EOF is a normal case.
         } else {
